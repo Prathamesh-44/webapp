@@ -9,15 +9,15 @@ pipeline {
 		}
 		stage('Build Docker Image') {
 			steps {
-        sh 'docker build -t myapp:v1 .'
+        sh 'docker build -t myapp:latest .'
 			}
 		}
-    stage('Run container') {
+    stage('Stop old container') {
         steps {
             sh '''
               docker stop mycontainer || true
               docker rm mycontainer || true
-              docker run -d -p 8081:80 --name mycontainer myapp:v1
+              docker run -d -p 8081:80 --name mycontainer myapp:latest
             '''
           }
       }
